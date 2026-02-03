@@ -117,7 +117,7 @@ function initBlackjack({ rootEl, state }) {
   }
 
   function setStatus(message) {
-    statusEl.textContent = message;
+    statusEl.innerHTML = message;
   }
 
   function updateBetDisplay() {
@@ -171,12 +171,12 @@ function initBlackjack({ rootEl, state }) {
       payoutMessage = `BLACKJACK +$${formatMoney(bet * 1.5)}`;
     } else if (result === "player_win") {
       updateBankroll(bankroll + bet * 2);
-      payoutMessage = `WIN +$${formatMoney(bet)}`;
+      payoutMessage = `<span class="result-win">WIN</span> +$${formatMoney(bet)}`;
     } else if (result === "push") {
       updateBankroll(bankroll + bet);
-      payoutMessage = "PUSH BET RETURNED";
+      payoutMessage = `<span class="result-push">PUSH</span> BET RETURNED`;
     } else {
-      payoutMessage = "LOSS";
+      payoutMessage = `<span class="result-loss">LOSS</span>`;
     }
     bet = 0;
     updateBetDisplay();

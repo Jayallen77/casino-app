@@ -2,6 +2,9 @@
   --bg: #000000;
   --green: #00ff66;
   --yellow: #ffd000;
+  --gold: #ffcc33;
+  --red: #ff3344;
+  --white: #ffffff;
   --green-dim: rgba(0, 255, 102, 0.12);
   --green-mid: rgba(0, 255, 102, 0.35);
   --panel-bg: rgba(0, 15, 5, 0.85);
@@ -166,6 +169,21 @@ body::before {
   border-top: 1px solid var(--green-mid);
   padding-top: 6px;
   min-height: 18px;
+}
+
+.status .result-win {
+  color: var(--gold);
+  text-shadow: 0 0 6px rgba(255, 204, 51, 0.7);
+}
+
+.status .result-loss {
+  color: var(--red);
+  text-shadow: 0 0 6px rgba(255, 51, 68, 0.7);
+}
+
+.status .result-push {
+  color: var(--white);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.65);
 }
 
 .bet-row {
