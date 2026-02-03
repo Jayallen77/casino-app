@@ -144,7 +144,8 @@ function initBlackjack({ rootEl, state }) {
     const dealerValue = handValue(dealerHand);
     const playerValue = handValue(playerHand);
     if (hideDealer) {
-      dealerValueEl.textContent = "VALUE: ?";
+      const visible = dealerHand.length ? handValue([dealerHand[0]]) : 0;
+      dealerValueEl.textContent = dealerHand.length ? `VALUE: ${visible}` : "VALUE: ?";
     } else {
       dealerValueEl.textContent = `VALUE: ${dealerValue}`;
     }
