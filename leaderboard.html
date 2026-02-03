@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Leaderboard | ASCII Hacker Casino</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="hud panel">
+        <div class="hud-left">
+          <span class="label">SCORE</span>
+          <span id="bankroll" class="value">$1000</span>
+        </div>
+        <div class="hud-right">
+          <a class="btn" href="index.html">HOME</a>
+        </div>
+      </header>
+
+      <main class="main">
+        <section id="leaderboard-panel" class="panel leaderboard" aria-label="Leaderboard">
+          <div class="panel-header">WEEKLY LEADERBOARD</div>
+          <div class="panel-body">
+            <pre id="leaderboard" class="leaderboard-list">[no scores yet]</pre>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="js/core/state.js"></script>
+    <script src="js/leaderboard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ASCII Hacker Casino</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="hud panel">
+        <div class="hud-left">
+          <span class="label">SCORE</span>
+          <span id="bankroll" class="value">$1000</span>
+        </div>
+        <div class="hud-right">
+          <a id="leaderboard-link" class="btn" href="leaderboard.html">LEADERBOARD</a>
+          <button id="save-score" class="btn">SAVE SCORE</button>
+        </div>
+      </header>
+
+      <main class="main">
+        <section id="blackjack-panel" class="panel blackjack" aria-label="Blackjack">
+          <div class="panel-header">BLACKJACK TERMINAL</div>
+          <div class="panel-body">
+            <div class="hands">
+              <div class="hand">
+                <div class="hand-title">DEALER</div>
+                <pre id="dealer-cards" class="cards">[no hand]</pre>
+                <div id="dealer-value" class="hand-value"></div>
+              </div>
+              <div class="hand">
+                <div class="hand-title">PLAYER</div>
+                <pre id="player-cards" class="cards">[no hand]</pre>
+                <div id="player-value" class="hand-value"></div>
+              </div>
+            </div>
+
+            <div id="round-status" class="status">PLACE BETS THEN DEAL</div>
+
+            <div class="bet-row">
+              <div class="bet-label">BET</div>
+              <div class="chips">
+                <button class="btn chip" data-bet="5">$5</button>
+                <button class="btn chip" data-bet="10">$10</button>
+                <button class="btn chip" data-bet="25">$25</button>
+                <button class="btn chip" data-bet="50">$50</button>
+              </div>
+              <div class="bet-current">CURRENT: <span id="bet-display">$0</span></div>
+            </div>
+
+            <div class="actions">
+              <button id="deal" class="btn">DEAL</button>
+              <button id="hit" class="btn">HIT</button>
+              <button id="stand" class="btn">STAND</button>
+              <button id="new-hand" class="btn">NEW HAND</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-content panel">
+        <div class="panel-header" id="modal-title">SAVE SCORE</div>
+        <div class="panel-body">
+          <label class="field">
+            <span>USERNAME</span>
+            <input id="username" type="text" maxlength="16" placeholder="h4x0r" />
+          </label>
+          <label class="field">
+            <span>EMOJI MESSAGE</span>
+            <input id="emoji" type="text" maxlength="8" placeholder=":)" />
+          </label>
+          <div class="modal-actions">
+            <button id="modal-cancel" class="btn">CANCEL</button>
+            <button id="modal-save" class="btn">SAVE</button>
+          </div>
+          <div id="modal-status" class="status"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/core/state.js"></script>
+    <script src="js/games/blackjack.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
