@@ -12,6 +12,8 @@
   --text-glow: 0 0 6px rgba(0, 255, 102, 0.65);
   --app-pad: 12px;
   --hud-offset: 86px;
+  --ticker-height: 32px;
+  --ticker-speed: 28s;
 }
 
 * {
@@ -58,8 +60,49 @@ body::before {
   display: flex;
   flex-direction: column;
   padding: var(--app-pad);
-  padding-top: calc(var(--app-pad) + var(--hud-offset));
+  padding-top: calc(var(--app-pad) + var(--hud-offset) + var(--ticker-height));
   gap: 10px;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll var(--ticker-speed) linear infinite;
+  will-change: transform;
+}
+
+#ticker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--ticker-height);
+  background: rgba(0, 0, 0, 0.92);
+  border-bottom: 1px solid var(--green-mid);
+  box-shadow: 0 0 14px rgba(0, 255, 102, 0.2);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 12;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.ticker-content {
+  flex: 0 0 auto;
+  padding-right: 40px;
+  white-space: nowrap;
+  text-shadow: var(--text-glow);
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .panel {
@@ -82,7 +125,7 @@ body::before {
   align-items: center;
   min-height: 54px;
   position: fixed;
-  top: var(--app-pad);
+  top: calc(var(--app-pad) + var(--ticker-height));
   left: var(--app-pad);
   right: var(--app-pad);
   z-index: 10;
@@ -424,11 +467,13 @@ body::before {
   :root {
     --app-pad: 20px;
     --hud-offset: 94px;
+    --ticker-height: 40px;
+    --ticker-speed: 30s;
   }
 
   #app {
     padding: var(--app-pad);
-    padding-top: calc(var(--app-pad) + var(--hud-offset));
+    padding-top: calc(var(--app-pad) + var(--hud-offset) + var(--ticker-height));
   }
 
   .hands {
