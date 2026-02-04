@@ -168,7 +168,8 @@ body::before {
 
 .hand-value {
   font-size: 12px;
-  margin-top: 4px;
+  margin-top: 8px;
+  line-height: 1.4;
 }
 
 .status {
@@ -324,5 +325,13 @@ body::before {
 @media (max-width: 480px) {
   .blackjack {
     height: 40vh;
+  }
+
+  .panel-body {
+    overflow-y: auto;
+  }
+
+  .hands {
+    flex: 0 0 auto;
   }
 }
