@@ -353,8 +353,8 @@ body::before {
   .cards {
     flex-wrap: wrap;
     overflow: visible;
-    font-size: 10px;
+    font-size: 10.5px;
     line-height: 1.05;
-    gap: 4px;
+    gap: 3px;
   }
 }
