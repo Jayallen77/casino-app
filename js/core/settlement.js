@@ -21,17 +21,28 @@
     const wagerText = `$${formatMoney(wager)}`;
     const payoutText = `$${formatMoney(payout)}`;
     const labelHtml = `<span class="${cssClass}">${label}</span>`;
+    let netClass = "net-push";
+    let netText = `$${formatMoney(0)}`;
+
+    if (net > 0) {
+      netClass = "net-win";
+      netText = `+$${formatMoney(net)}`;
+    } else if (net < 0) {
+      netClass = "net-loss";
+      netText = `-$${formatMoney(Math.abs(net))}`;
+    }
+    const netHtml = `<span class="${netClass}">${netText}</span>`;
+    const parts = [labelHtml];
 
     if (payout > 0 && net === 0) {
-      return `${labelHtml} :: BET RETURNED :: WAGER ${wagerText} :: PAYOUT ${payoutText}`;
+      parts.push("BET RETURNED");
     }
 
-    if (payout > 0) {
-      const netText = `+$${formatMoney(net)}`;
-      return `${labelHtml} :: WAGER ${wagerText} :: PAYOUT ${payoutText} :: NET ${netText}`;
-    }
+    parts.push(`WAGER ${wagerText}`);
+    parts.push(`PAYOUT ${payoutText}`);
+    parts.push(`NET ${netHtml}`);
 
-    return `${labelHtml} :: WAGER ${wagerText}`;
+    return parts.join(" :: ");
   }
 
   window.CasinoSettlement = Object.assign(window.CasinoSettlement || {}, {

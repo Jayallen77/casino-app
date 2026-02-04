@@ -353,6 +353,21 @@ body::before {
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.65);
 }
 
+.status .net-win {
+  color: var(--yellow);
+  text-shadow: 0 0 6px rgba(255, 208, 0, 0.7);
+}
+
+.status .net-loss {
+  color: var(--red);
+  text-shadow: 0 0 6px rgba(255, 51, 68, 0.7);
+}
+
+.status .net-push {
+  color: var(--white);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.65);
+}
+
 .bet-row {
   display: flex;
   flex-direction: column;
