@@ -62,7 +62,22 @@ function renderCardLines(card, hidden = false) {
 }
 
 function renderCardHtml(card, hidden = false) {
-  const lines = renderCardLines(card, hidden);
+  if (hidden) {
+    const lines = renderCardLines(card, true);
+    return `<span class=\"ascii-card\">${lines.join("<br>")}</span>`;
+  }
+  const rank = card.rank;
+  const padRight = " ".repeat(5 - rank.length);
+  const padLeft = " ".repeat(5 - rank.length);
+  const face = `<span class=\"card-face\">${rank}</span>`;
+  const suit = `<span class=\"card-face\">${card.suit}</span>`;
+  const lines = [
+    "+-----+",
+    `|${face}${padRight}|`,
+    `|  ${suit}  |`,
+    `|${padLeft}${face}|`,
+    "+-----+",
+  ];
   return `<span class=\"ascii-card\">${lines.join("<br>")}</span>`;
 }
 

@@ -181,12 +181,16 @@ body::before {
   display: inline-block;
   white-space: pre;
   flex: 0 0 auto;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .ascii-empty {
   display: inline-block;
   white-space: pre;
+}
+
+.card-face {
+  font-weight: 700;
 }
 
 .hand-value {
