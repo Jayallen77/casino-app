@@ -87,6 +87,45 @@
           </div>
         </section>
 
+        <section id="video-poker-panel" class="panel video-poker" aria-label="Video Poker">
+          <div class="panel-header">VIDEO POKER TERMINAL</div>
+          <div class="panel-body">
+            <div id="vp-cards" class="vp-cards" aria-live="polite">
+              <div class="vp-card">[no hand]</div>
+              <div class="vp-card">[no hand]</div>
+              <div class="vp-card">[no hand]</div>
+              <div class="vp-card">[no hand]</div>
+              <div class="vp-card">[no hand]</div>
+            </div>
+
+            <div id="vp-holds" class="vp-holds">
+              <button class="btn vp-hold" data-index="0">HOLD</button>
+              <button class="btn vp-hold" data-index="1">HOLD</button>
+              <button class="btn vp-hold" data-index="2">HOLD</button>
+              <button class="btn vp-hold" data-index="3">HOLD</button>
+              <button class="btn vp-hold" data-index="4">HOLD</button>
+            </div>
+
+            <div id="vp-status" class="status">PLACE BETS THEN DEAL</div>
+
+            <div class="bet-row">
+              <div class="bet-label">BET</div>
+              <div class="chips">
+                <button class="btn vp-chip" data-bet="5">$5</button>
+                <button class="btn vp-chip" data-bet="10">$10</button>
+                <button class="btn vp-chip" data-bet="25">$25</button>
+                <button class="btn vp-chip" data-bet="50">$50</button>
+              </div>
+              <div class="bet-current">CURRENT: <span id="vp-bet-display">$0</span></div>
+            </div>
+
+            <div class="actions">
+              <button id="vp-deal" class="btn">DEAL</button>
+              <button id="vp-clear" class="btn">CLEAR BET</button>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
 
@@ -114,6 +153,7 @@
     <script src="js/core/state.js"></script>
     <script src="js/games/blackjack.js"></script>
     <script src="js/games/slots.js"></script>
+    <script src="js/games/video-poker.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

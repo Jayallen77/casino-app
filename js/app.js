@@ -2,9 +2,10 @@
   const casinoState = window.CasinoState;
   const blackjackApi = window.BlackjackGame;
   const slotsApi = window.SlotsGame;
+  const videoPokerApi = window.VideoPokerGame;
   const statusEl = document.querySelector("#round-status");
 
-  if (!casinoState || !blackjackApi || !slotsApi) {
+  if (!casinoState || !blackjackApi || !slotsApi || !videoPokerApi) {
     if (statusEl) {
       statusEl.textContent = "ERROR LOADING GAME FILES";
     }
@@ -20,6 +21,7 @@
   } = casinoState;
   const { initBlackjack } = blackjackApi;
   const { initSlots } = slotsApi;
+  const { initVideoPoker } = videoPokerApi;
 
   const state = loadState();
 
@@ -83,6 +85,7 @@
 
   initBlackjack({ rootEl: document, state });
   initSlots({ rootEl: document, state });
+  initVideoPoker({ rootEl: document, state });
 
   updateBankroll();
 
