@@ -165,14 +165,27 @@ body::before {
 .cards {
   flex: 0 0 auto;
   margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  align-items: flex-start;
   font-family: "Courier New", Courier, "Liberation Mono", Menlo, Consolas, monospace;
   font-size: 12px;
   line-height: 1.1;
   font-variant-ligatures: none;
+  white-space: normal;
+  overflow: visible;
+}
+
+.ascii-card {
+  display: inline-block;
   white-space: pre;
-  overflow: hidden;
-  height: 5.5em;
-  display: block;
+  flex: 0 0 auto;
+}
+
+.ascii-empty {
+  display: inline-block;
+  white-space: pre;
 }
 
 .hand-value {
@@ -330,5 +343,10 @@ body::before {
 @media (max-width: 480px) {
   .hands {
     flex: 0 0 auto;
+  }
+
+  .cards {
+    flex-wrap: wrap;
+    overflow: visible;
   }
 }

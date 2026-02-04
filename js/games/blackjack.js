@@ -39,7 +39,7 @@ function handValue(cards) {
   return total;
 }
 
-function renderCard(card, hidden = false) {
+function renderCardLines(card, hidden = false) {
   if (hidden) {
     return [
       "+-----+",
@@ -61,16 +61,16 @@ function renderCard(card, hidden = false) {
   ];
 }
 
+function renderCardHtml(card, hidden = false) {
+  const lines = renderCardLines(card, hidden);
+  return `<span class=\"ascii-card\">${lines.join("<br>")}</span>`;
+}
+
 function renderCards(cards, hideSecond = false) {
   if (!cards.length) {
-    return "[no hand]";
+    return "<span class=\"ascii-empty\">[no hand]</span>";
   }
-  const rendered = cards.map((card, index) => renderCard(card, hideSecond && index === 1));
-  const lines = [];
-  for (let i = 0; i < 5; i += 1) {
-    lines.push(rendered.map((cardLines) => cardLines[i]).join(" "));
-  }
-  return lines.join("\n");
+  return cards.map((card, index) => renderCardHtml(card, hideSecond && index === 1)).join("");
 }
 
 function initBlackjack({ rootEl, state }) {
@@ -138,8 +138,8 @@ function initBlackjack({ rootEl, state }) {
   }
 
   function updateHands(hideDealer = true) {
-    dealerCardsEl.textContent = renderCards(dealerHand, hideDealer);
-    playerCardsEl.textContent = renderCards(playerHand, false);
+    dealerCardsEl.innerHTML = renderCards(dealerHand, hideDealer);
+    playerCardsEl.innerHTML = renderCards(playerHand, false);
 
     const dealerValue = handValue(dealerHand);
     const playerValue = handValue(playerHand);
