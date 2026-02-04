@@ -20,6 +20,8 @@ html,
 body {
   height: 100%;
   margin: 0;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -160,7 +162,7 @@ body::before {
   font-variant-ligatures: none;
   white-space: pre;
   overflow: hidden;
-  height: 6.5em;
+  height: 5.5em;
   display: block;
 }
 
@@ -316,5 +318,11 @@ body::before {
 
   .actions {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .blackjack {
+    height: 40vh;
   }
 }
