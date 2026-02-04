@@ -83,8 +83,16 @@
 
     function setReelSymbol(index, symbol) {
       if (reelEls[index]) {
-        reelEls[index].textContent = `[▓ ${symbol} ▓]`;
+        reelEls[index].innerHTML = `<span class=\"slot-symbol\">[▓ ${symbol} ▓]</span>`;
       }
+    }
+
+    function setReelState(index, { spinning, snap }) {
+      if (!reelEls[index]) {
+        return;
+      }
+      reelEls[index].classList.toggle("spinning", Boolean(spinning));
+      reelEls[index].classList.toggle("snap", Boolean(snap));
     }
 
     function seedReels() {
@@ -161,10 +169,14 @@
       setStatus("SPINNING...");
       updateControls();
 
-      const stopTimes = [650, 1050, 1500];
+      const stopTimes = [1500, 2500, 3500];
       const finalSymbols = [null, null, null];
 
       stopAllSpins();
+
+      for (let i = 0; i < reelEls.length; i += 1) {
+        setReelState(i, { spinning: true, snap: false });
+      }
 
       function spinReel(index, duration) {
         const start = typeof performance !== "undefined" ? performance.now() : Date.now();
@@ -204,6 +216,12 @@
               setTimeout(() => {
                 finalSymbols[index] = pickSymbol();
                 setReelSymbol(index, finalSymbols[index]);
+                setReelState(index, { spinning: false, snap: true });
+                spinTimeouts.push(
+                  setTimeout(() => {
+                    setReelState(index, { spinning: false, snap: false });
+                  }, 140)
+                );
                 if (finalSymbols.every((val) => val)) {
                   finishSpin(finalSymbols);
                 }
@@ -214,6 +232,12 @@
 
           finalSymbols[index] = pickSymbol();
           setReelSymbol(index, finalSymbols[index]);
+          setReelState(index, { spinning: false, snap: true });
+          spinTimeouts.push(
+            setTimeout(() => {
+              setReelState(index, { spinning: false, snap: false });
+            }, 140)
+          );
           if (finalSymbols.every((val) => val)) {
             finishSpin(finalSymbols);
           }

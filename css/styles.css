@@ -137,11 +137,37 @@ body::before {
 }
 
 .slot-reel {
-  border: 1px dashed var(--green-mid);
   padding: 8px 10px;
   min-width: 72px;
   text-align: center;
+  position: relative;
+  border: none;
+  box-shadow: none;
+}
+
+.slot-reel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px dashed var(--green-mid);
   box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.15);
+  pointer-events: none;
+  transition: filter 120ms ease, opacity 120ms ease;
+}
+
+.slot-symbol {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.slot-reel.spinning::before {
+  filter: blur(0.9px);
+  opacity: 0.75;
+}
+
+.slot-reel.snap .slot-symbol {
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.7);
 }
 
 .panel-body {
