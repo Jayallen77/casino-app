@@ -3,15 +3,16 @@
   const RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
   const PAYOUTS = {
-    royal_flush: 250,
-    straight_flush: 50,
-    four_kind: 25,
-    full_house: 9,
-    flush: 6,
-    straight: 4,
-    three_kind: 3,
-    two_pair: 2,
-    jacks_better: 1,
+    ROYAL_FLUSH: 250,
+    STRAIGHT_FLUSH: 50,
+    FOUR_KIND: 25,
+    FULL_HOUSE: 9,
+    FLUSH: 6,
+    STRAIGHT: 4,
+    THREE_KIND: 3,
+    TWO_PAIR: 2,
+    JACKS_OR_BETTER: 1,
+    LOSS: 0,
   };
 
   function buildDeck() {
@@ -51,44 +52,53 @@
   function evaluateHand(cards) {
     const values = cards.map((card) => rankValue(card.rank)).sort((a, b) => a - b);
     const suits = cards.map((card) => card.suit);
-    const counts = {};
-    for (let i = 0; i < values.length; i += 1) {
-      counts[values[i]] = (counts[values[i]] || 0) + 1;
-    }
-    const countValues = Object.values(counts).sort((a, b) => b - a);
     const isFlush = suits.every((suit) => suit === suits[0]);
     const straight = isStraight(values);
 
+    const counts = {};
+    for (let i = 0; i < cards.length; i += 1) {
+      const rank = cards[i].rank;
+      counts[rank] = (counts[rank] || 0) + 1;
+    }
+    const countEntries = Object.entries(counts).map(([rank, count]) => ({
+      rank,
+      count,
+      value: rankValue(rank),
+    }));
+    const countValues = countEntries.map((entry) => entry.count).sort((a, b) => b - a);
+
     if (isFlush && straight) {
       const isRoyal = values.includes(14) && values.includes(10);
-      return isRoyal ? { name: "ROYAL FLUSH", key: "royal_flush" } : { name: "STRAIGHT FLUSH", key: "straight_flush" };
+      const hand = isRoyal ? "ROYAL_FLUSH" : "STRAIGHT_FLUSH";
+      return { hand, multiplier: PAYOUTS[hand] };
     }
     if (countValues[0] === 4) {
-      return { name: "FOUR OF A KIND", key: "four_kind" };
+      return { hand: "FOUR_KIND", multiplier: PAYOUTS.FOUR_KIND };
     }
     if (countValues[0] === 3 && countValues[1] === 2) {
-      return { name: "FULL HOUSE", key: "full_house" };
+      return { hand: "FULL_HOUSE", multiplier: PAYOUTS.FULL_HOUSE };
     }
     if (isFlush) {
-      return { name: "FLUSH", key: "flush" };
+      return { hand: "FLUSH", multiplier: PAYOUTS.FLUSH };
     }
     if (straight) {
-      return { name: "STRAIGHT", key: "straight" };
+      return { hand: "STRAIGHT", multiplier: PAYOUTS.STRAIGHT };
     }
     if (countValues[0] === 3) {
-      return { name: "THREE OF A KIND", key: "three_kind" };
+      return { hand: "THREE_KIND", multiplier: PAYOUTS.THREE_KIND };
     }
     if (countValues[0] === 2 && countValues[1] === 2) {
-      return { name: "TWO PAIR", key: "two_pair" };
+      return { hand: "TWO_PAIR", multiplier: PAYOUTS.TWO_PAIR };
     }
     if (countValues[0] === 2) {
-      const pairRank = Number(Object.keys(counts).find((key) => counts[key] === 2));
-      if (pairRank >= 11 || pairRank === 14) {
-        return { name: "JACKS OR BETTER", key: "jacks_better" };
+      const pairEntry = countEntries.find((entry) => entry.count === 2);
+      const pairValue = pairEntry ? pairEntry.value : 0;
+      if (pairValue >= 11) {
+        return { hand: "JACKS_OR_BETTER", multiplier: PAYOUTS.JACKS_OR_BETTER };
       }
     }
 
-    return { name: "NO WIN", key: null };
+    return { hand: "LOSS", multiplier: PAYOUTS.LOSS };
   }
 
   function renderCardHtml(card) {
@@ -260,11 +270,12 @@
           }
         }
         const result = evaluateHand(hand);
-        if (result.key) {
-          const payout = PAYOUTS[result.key] * bet;
+        if (result.multiplier > 0) {
+          const payout = result.multiplier * bet;
           const bankroll = getBankroll(state);
           updateBankroll(bankroll + payout);
-          setStatus(`ROUND OVER :: <span class=\"result-win\">${result.name}</span> +$${formatMoney(payout - bet)}`);
+          const label = result.hand.replace(/_/g, " ");
+          setStatus(`ROUND OVER :: <span class=\"result-win\">${label}</span> +$${formatMoney(payout - bet)}`);
         } else {
           setStatus("ROUND OVER :: <span class=\"result-loss\">LOSS</span> :: PLACE BETS THEN DEAL");
         }
@@ -310,4 +321,90 @@
   }
 
   window.VideoPokerGame = Object.assign(window.VideoPokerGame || {}, { initVideoPoker });
+
+  function runVideoPokerTests() {
+    if (typeof console === "undefined" || typeof console.assert !== "function") {
+      return;
+    }
+    const c = (rank, suit) => ({ rank, suit });
+    const tests = [
+      {
+        name: "Royal Flush",
+        cards: [c("A", "S"), c("K", "S"), c("Q", "S"), c("J", "S"), c("10", "S")],
+        hand: "ROYAL_FLUSH",
+        multiplier: 250,
+      },
+      {
+        name: "Straight Flush",
+        cards: [c("9", "H"), c("8", "H"), c("7", "H"), c("6", "H"), c("5", "H")],
+        hand: "STRAIGHT_FLUSH",
+        multiplier: 50,
+      },
+      {
+        name: "Four of a Kind",
+        cards: [c("9", "C"), c("9", "D"), c("9", "H"), c("9", "S"), c("2", "H")],
+        hand: "FOUR_KIND",
+        multiplier: 25,
+      },
+      {
+        name: "Full House",
+        cards: [c("K", "C"), c("K", "D"), c("K", "H"), c("3", "S"), c("3", "H")],
+        hand: "FULL_HOUSE",
+        multiplier: 9,
+      },
+      {
+        name: "Flush Only",
+        cards: [c("A", "D"), c("10", "D"), c("8", "D"), c("3", "D"), c("2", "D")],
+        hand: "FLUSH",
+        multiplier: 6,
+      },
+      {
+        name: "Straight Only (A-2-3-4-5)",
+        cards: [c("A", "C"), c("2", "D"), c("3", "H"), c("4", "S"), c("5", "C")],
+        hand: "STRAIGHT",
+        multiplier: 4,
+      },
+      {
+        name: "Three of a Kind",
+        cards: [c("7", "C"), c("7", "D"), c("7", "H"), c("4", "S"), c("2", "H")],
+        hand: "THREE_KIND",
+        multiplier: 3,
+      },
+      {
+        name: "Two Pair",
+        cards: [c("J", "C"), c("J", "D"), c("4", "H"), c("4", "S"), c("9", "H")],
+        hand: "TWO_PAIR",
+        multiplier: 2,
+      },
+      {
+        name: "Pair of 10s (Loss)",
+        cards: [c("10", "C"), c("10", "D"), c("4", "H"), c("7", "S"), c("2", "H")],
+        hand: "LOSS",
+        multiplier: 0,
+      },
+      {
+        name: "Pair of Jacks (Jacks or Better)",
+        cards: [c("J", "C"), c("J", "D"), c("3", "H"), c("5", "S"), c("9", "H")],
+        hand: "JACKS_OR_BETTER",
+        multiplier: 1,
+      },
+      {
+        name: "High Card Only (Loss)",
+        cards: [c("A", "C"), c("K", "D"), c("9", "H"), c("5", "S"), c("2", "H")],
+        hand: "LOSS",
+        multiplier: 0,
+      },
+    ];
+
+    for (let i = 0; i < tests.length; i += 1) {
+      const test = tests[i];
+      const result = evaluateHand(test.cards);
+      console.assert(
+        result.hand === test.hand && result.multiplier === test.multiplier,
+        `[Video Poker] ${test.name} failed: expected ${test.hand} x${test.multiplier}, got ${result.hand} x${result.multiplier}`
+      );
+    }
+  }
+
+  runVideoPokerTests();
 })();
