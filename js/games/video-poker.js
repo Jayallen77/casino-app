@@ -126,6 +126,7 @@
 
   function initVideoPoker({ rootEl, state }) {
     const { getBankroll, setBankroll } = window.CasinoState;
+    const { computeSettlement, formatSettlementMessage } = window.CasinoSettlement;
     const cardsEl = rootEl.querySelector("#vp-cards");
     const holdButtons = rootEl.querySelectorAll(".vp-hold");
     const statusEl = rootEl.querySelector("#vp-status");
@@ -270,15 +271,22 @@
           }
         }
         const result = evaluateHand(hand);
-        if (result.multiplier > 0) {
-          const payout = result.multiplier * bet;
-          const bankroll = getBankroll(state);
-          updateBankroll(bankroll + payout);
-          const label = result.hand.replace(/_/g, " ");
-          setStatus(`ROUND OVER :: <span class=\"result-win\">${label}</span> +$${formatMoney(payout - bet)}`);
-        } else {
-          setStatus("ROUND OVER :: <span class=\"result-loss\">LOSS</span> :: PLACE BETS THEN DEAL");
+        const bankroll = getBankroll(state);
+        const multiplier = result.multiplier;
+        const label = multiplier > 0 ? result.hand.replace(/_/g, " ") : "LOSS";
+        const cssClass = multiplier > 0 ? "result-win" : "result-loss";
+        const settlement = computeSettlement({ wager: bet, multiplier });
+        if (settlement.payout > 0) {
+          updateBankroll(bankroll + settlement.payout);
         }
+        const payoutMessage = formatSettlementMessage({
+          label,
+          cssClass,
+          wager: settlement.wager,
+          payout: settlement.payout,
+          net: settlement.net,
+        });
+        setStatus(`ROUND OVER :: ${payoutMessage} :: PLACE BETS THEN DEAL`);
         bet = 0;
         updateBetDisplay();
         updateCards();

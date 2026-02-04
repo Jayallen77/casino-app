@@ -28,6 +28,7 @@
 
   function initSlots({ rootEl, state }) {
     const { getBankroll, setBankroll } = window.CasinoState;
+    const { computeSettlement, formatSettlementMessage } = window.CasinoSettlement;
     const reelsEl = rootEl.querySelector("#slots-reels");
     const reelEls = reelsEl ? reelsEl.querySelectorAll(".slot-reel") : [];
     const statusEl = rootEl.querySelector("#slots-status");
@@ -147,14 +148,25 @@
         payoutMultiplier = 2;
       }
 
+      const bankroll = getBankroll(state);
+      let label = "LOSS";
+      let cssClass = "result-loss";
       if (payoutMultiplier > 0) {
-        const winnings = bet * payoutMultiplier;
-        const bankroll = getBankroll(state);
-        updateBankroll(bankroll + winnings);
-        setStatus(`ROUND OVER :: <span class=\"result-win\">WIN</span> +$${formatMoney(winnings - bet)}`);
-      } else {
-        setStatus("ROUND OVER :: <span class=\"result-loss\">LOSS</span> :: PLACE BETS THEN SPIN");
+        label = "WIN";
+        cssClass = "result-win";
       }
+      const settlement = computeSettlement({ wager: bet, multiplier: payoutMultiplier });
+      if (settlement.payout > 0) {
+        updateBankroll(bankroll + settlement.payout);
+      }
+      const payoutMessage = formatSettlementMessage({
+        label,
+        cssClass,
+        wager: settlement.wager,
+        payout: settlement.payout,
+        net: settlement.net,
+      });
+      setStatus(`ROUND OVER :: ${payoutMessage} :: PLACE BETS THEN SPIN`);
 
       bet = 0;
       updateBetDisplay();

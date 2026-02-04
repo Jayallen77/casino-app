@@ -90,6 +90,7 @@ function renderCards(cards, hideSecond = false) {
 
 function initBlackjack({ rootEl, state }) {
   const { getBankroll, setBankroll } = window.CasinoState;
+  const { computeSettlement, formatSettlementMessage } = window.CasinoSettlement;
   const dealerCardsEl = rootEl.querySelector("#dealer-cards");
   const playerCardsEl = rootEl.querySelector("#player-cards");
   const dealerValueEl = rootEl.querySelector("#dealer-value");
@@ -180,20 +181,34 @@ function initBlackjack({ rootEl, state }) {
 
   function settleRound(result) {
     phase = "roundOver";
-    let payoutMessage = "";
     const bankroll = getBankroll(state);
+    let multiplier = 0;
+    let label = "LOSS";
+    let cssClass = "result-loss";
     if (result === "player_blackjack") {
-      updateBankroll(bankroll + bet * 2.5);
-      payoutMessage = `BLACKJACK +$${formatMoney(bet * 1.5)}`;
+      multiplier = 2.5;
+      label = "BLACKJACK";
+      cssClass = "result-win";
     } else if (result === "player_win") {
-      updateBankroll(bankroll + bet * 2);
-      payoutMessage = `<span class="result-win">WIN</span> +$${formatMoney(bet)}`;
+      multiplier = 2;
+      label = "WIN";
+      cssClass = "result-win";
     } else if (result === "push") {
-      updateBankroll(bankroll + bet);
-      payoutMessage = `<span class="result-push">PUSH</span> BET RETURNED`;
-    } else {
-      payoutMessage = `<span class="result-loss">LOSS</span>`;
+      multiplier = 1;
+      label = "PUSH";
+      cssClass = "result-push";
     }
+    const settlement = computeSettlement({ wager: bet, multiplier });
+    if (settlement.payout > 0) {
+      updateBankroll(bankroll + settlement.payout);
+    }
+    const payoutMessage = formatSettlementMessage({
+      label,
+      cssClass,
+      wager: settlement.wager,
+      payout: settlement.payout,
+      net: settlement.net,
+    });
     bet = 0;
     updateBetDisplay();
     setStatus(`ROUND OVER :: ${payoutMessage} :: PLACE BETS THEN DEAL`);
