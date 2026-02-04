@@ -181,6 +181,7 @@ body::before {
   display: inline-block;
   white-space: pre;
   flex: 0 0 auto;
+  font-weight: 700;
 }
 
 .ascii-empty {
@@ -348,5 +349,8 @@ body::before {
   .cards {
     flex-wrap: wrap;
     overflow: visible;
+    font-size: 10px;
+    line-height: 1.05;
+    gap: 4px;
   }
 }
