@@ -22,6 +22,7 @@
   - Background: `#000000` (black) with subtle radial green gradients.
   - Primary neon green: `#00ff66` for most text, borders, and buttons.
   - Score value color: yellow `#ffd000` with glow.
+  - Result colors: win = gold (`#ffcc33`), loss = red (`#ff3344`), push = white (`#ffffff`).
 - Typography:
   - Monospace terminal stack: `SFMono-Regular, Menlo, Consolas, "Courier New", monospace`.
   - Uppercase headers and labels; small pixel-like sizes (12px for labels and headers).
@@ -35,10 +36,13 @@
   - Top-left label: `SCORE` (green).
   - Top-left value: yellow `#ffd000` with yellow glow.
   - Buttons are green; hover inverts to green background and dark text.
+  - Button taps are optimized for mobile: `touch-action: manipulation` + `user-select: none`.
 - Layout constraints:
-  - Full-height app (`#app` is 100% height).
-  - Blackjack panel height is `33vh` on mobile, `35vh` on larger screens.
+  - The blackjack terminal auto-sizes to its content; no internal scrolling is expected.
+  - The overall page may scroll if the terminal grows on small screens.
   - Actions grid is 2 columns on mobile and 4 columns at `min-width: 720px`.
+  - Card faces are bold; borders remain normal weight.
+  - Mobile card layout wraps to multiple rows when needed; desktop keeps cards on a single row.
 
 ## Architecture
 - Global modules (no bundler):
@@ -54,6 +58,12 @@
 - Leaderboard flow:
   - `leaderboard.html` loads `js/core/state.js` and `js/leaderboard.js`.
   - `js/leaderboard.js` reads state and renders the leaderboard list.
+- Card rendering:
+  - Card ASCII is rendered as HTML spans (`.ascii-card`) with `<br>` line breaks.
+  - Ranks/suits are wrapped in `.card-face` for bolding.
+  - Card container is a flex row; on mobile it wraps to multiple rows.
+- Status rendering:
+  - Status uses `innerHTML` to colorize win/loss/push labels.
 
 ## File Structure
 - `index.html`
@@ -94,6 +104,9 @@
   - Standard 52-card deck, suits as ASCII letters: `S, H, D, C`.
   - Hand value treats Aces as 11, then reduces by 10 as needed.
   - Immediate blackjack is checked on deal for both player and dealer.
+- Dealer value display:
+  - During player turn, dealer value shows the visible card total (first card only).
+  - After reveal, dealer shows full total.
 - Payouts:
   - Blackjack win: bankroll increases by `bet * 2.5` (bet already deducted, so net +1.5x).
   - Regular win: bankroll increases by `bet * 2` (net +1x).
@@ -132,6 +145,8 @@
 - Keep the score value yellow in the HUD. It is a key visual emphasis element.
 - Keep suits as ASCII letters (`S/H/D/C`) unless the UI explicitly changes.
 - Do not remove the weekly reset behavior in `state.js` without a migration plan.
+- Do not reintroduce fixed heights or internal scrolling in the blackjack panel.
+- Keep card HTML structure (`.ascii-card` + `.card-face`) to preserve mobile wrapping and bold faces.
 
 ## Local Development + Deployment
 - Local run:

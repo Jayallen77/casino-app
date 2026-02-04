@@ -58,6 +58,35 @@
           </div>
         </section>
 
+        <section id="slots-panel" class="panel slots" aria-label="Slots">
+          <div class="panel-header">SLOTS TERMINAL</div>
+          <div class="panel-body">
+            <div id="slots-reels" class="slots-reels" aria-live="polite">
+              <div class="slot-reel">[▓ 7 ▓]</div>
+              <div class="slot-reel">[▓ B ▓]</div>
+              <div class="slot-reel">[▓ $ ▓]</div>
+            </div>
+
+            <div id="slots-status" class="status">PLACE BETS THEN SPIN</div>
+
+            <div class="bet-row">
+              <div class="bet-label">BET</div>
+              <div class="chips">
+                <button class="btn slot-chip" data-bet="5">$5</button>
+                <button class="btn slot-chip" data-bet="10">$10</button>
+                <button class="btn slot-chip" data-bet="25">$25</button>
+                <button class="btn slot-chip" data-bet="50">$50</button>
+              </div>
+              <div class="bet-current">CURRENT: <span id="slots-bet-display">$0</span></div>
+            </div>
+
+            <div class="actions">
+              <button id="slots-spin" class="btn">SPIN</button>
+              <button id="slots-clear" class="btn">CLEAR BET</button>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
 
@@ -84,6 +113,7 @@
 
     <script src="js/core/state.js"></script>
     <script src="js/games/blackjack.js"></script>
+    <script src="js/games/slots.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

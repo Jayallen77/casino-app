@@ -125,6 +125,25 @@ body::before {
   flex-direction: column;
 }
 
+.slots-reels {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  font-family: "Courier New", Courier, "Liberation Mono", Menlo, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.slot-reel {
+  border: 1px dashed var(--green-mid);
+  padding: 8px 10px;
+  min-width: 72px;
+  text-align: center;
+  box-shadow: inset 0 0 8px rgba(0, 255, 102, 0.15);
+}
+
 .panel-body {
   flex: 1;
   display: flex;
@@ -356,5 +375,15 @@ body::before {
     font-size: 10.5px;
     line-height: 1.05;
     gap: 3px;
+  }
+
+  .slots-reels {
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .slot-reel {
+    min-width: 64px;
+    padding: 6px 8px;
   }
 }
