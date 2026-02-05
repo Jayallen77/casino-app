@@ -259,6 +259,14 @@ body::before {
   color: #001a08;
 }
 
+.hilo .hands {
+  flex: 0 0 auto;
+}
+
+.hilo .cards {
+  justify-content: center;
+}
+
 .roulette-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

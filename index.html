@@ -176,6 +176,44 @@
           </div>
         </section>
 
+        <section id="hilo-panel" class="panel hilo" aria-label="Hi-Lo">
+          <div class="panel-header">HI-LO TERMINAL</div>
+          <div class="panel-body">
+            <div class="hands hilo-hands">
+              <div class="hand">
+                <div class="hand-title">CURRENT</div>
+                <div id="hilo-current" class="cards">[no card]</div>
+              </div>
+              <div class="hand">
+                <div class="hand-title">NEXT</div>
+                <div id="hilo-next" class="cards">[hidden]</div>
+              </div>
+            </div>
+
+            <div id="hilo-streak" class="hand-value">STREAK: 0 :: MULTIPLIER X1</div>
+            <div id="hilo-status" class="status">PLACE BETS THEN DEAL</div>
+
+            <div class="bet-row">
+              <div class="bet-label">BET</div>
+              <div class="chips">
+                <button class="btn hilo-chip" data-bet="5">$5</button>
+                <button class="btn hilo-chip" data-bet="10">$10</button>
+                <button class="btn hilo-chip" data-bet="25">$25</button>
+                <button class="btn hilo-chip" data-bet="50">$50</button>
+              </div>
+              <div class="bet-current">CURRENT: <span id="hilo-bet-display">$0</span></div>
+            </div>
+
+            <div class="actions">
+              <button id="hilo-deal" class="btn">DEAL</button>
+              <button id="hilo-high" class="btn">HIGH</button>
+              <button id="hilo-low" class="btn">LOW</button>
+              <button id="hilo-cashout" class="btn">CASH OUT</button>
+              <button id="hilo-clear" class="btn">CLEAR BET</button>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
 
@@ -206,6 +244,7 @@
     <script src="js/games/slots.js"></script>
     <script src="js/games/video-poker.js"></script>
     <script src="js/games/roulette.js"></script>
+    <script src="js/games/hilo.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>
