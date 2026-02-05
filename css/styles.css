@@ -160,7 +160,7 @@ body::before {
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   min-height: auto;
 }
 
@@ -566,6 +566,10 @@ body::before {
 
   .hands {
     gap: 16px;
+  }
+
+  .main {
+    gap: 24px;
   }
 
   .actions {
