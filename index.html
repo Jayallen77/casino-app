@@ -136,6 +136,46 @@
           </div>
         </section>
 
+        <section id="roulette-panel" class="panel roulette" aria-label="Roulette">
+          <div class="panel-header">ROULETTE TERMINAL</div>
+          <div class="panel-body">
+            <div id="roulette-result" class="status">RESULT: --</div>
+            <div id="roulette-status" class="status">PLACE BETS THEN SPIN</div>
+
+            <div id="roulette-grid" class="roulette-grid" aria-label="Roulette numbers"></div>
+
+            <div class="roulette-outside" aria-label="Outside bets">
+              <button class="btn roulette-bet" data-bet="red">RED</button>
+              <button class="btn roulette-bet" data-bet="black">BLACK</button>
+              <button class="btn roulette-bet" data-bet="odd">ODD</button>
+              <button class="btn roulette-bet" data-bet="even">EVEN</button>
+              <button class="btn roulette-bet" data-bet="low">1-18</button>
+              <button class="btn roulette-bet" data-bet="high">19-36</button>
+              <button class="btn roulette-bet" data-bet="dozen1">1st12</button>
+              <button class="btn roulette-bet" data-bet="dozen2">2nd12</button>
+              <button class="btn roulette-bet" data-bet="dozen3">3rd12</button>
+            </div>
+
+            <div class="bet-row">
+              <div class="bet-label">BET</div>
+              <div class="chips roulette-chips">
+                <button class="btn roulette-chip active" data-bet="5">$5</button>
+                <button class="btn roulette-chip" data-bet="10">$10</button>
+                <button class="btn roulette-chip" data-bet="25">$25</button>
+                <button class="btn roulette-chip" data-bet="50">$50</button>
+              </div>
+              <div class="bet-current">ACTIVE CHIP: <span id="roulette-chip-display">$5</span></div>
+              <div class="bet-current">TOTAL BET: <span id="roulette-bet-total">$0</span></div>
+              <div class="bet-current" id="roulette-bets">BETS: [none]</div>
+            </div>
+
+            <div class="actions">
+              <button id="roulette-spin" class="btn">SPIN</button>
+              <button id="roulette-clear" class="btn">CLEAR BET</button>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
 
@@ -165,6 +205,7 @@
     <script src="js/games/blackjack.js"></script>
     <script src="js/games/slots.js"></script>
     <script src="js/games/video-poker.js"></script>
+    <script src="js/games/roulette.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

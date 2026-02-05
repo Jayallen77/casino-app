@@ -259,6 +259,52 @@ body::before {
   color: #001a08;
 }
 
+.roulette-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.roulette-grid .roulette-zero {
+  grid-column: 1 / -1;
+}
+
+.roulette-grid .btn {
+  padding: 6px 4px;
+  font-size: 11px;
+}
+
+.roulette-outside {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.roulette-chip.active,
+.roulette-bet.active {
+  background: var(--green);
+  color: #001a08;
+}
+
+.roulette-result-number {
+  font-weight: 700;
+}
+
+.roulette-result-red {
+  color: var(--red);
+  text-shadow: 0 0 6px rgba(255, 51, 68, 0.7);
+}
+
+.roulette-result-black {
+  color: var(--white);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.65);
+}
+
+.roulette-result-green {
+  color: var(--green);
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.7);
+}
+
 .panel-body {
   flex: 1;
   display: flex;
