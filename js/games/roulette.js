@@ -224,7 +224,7 @@
       updateControls();
       setStatus("SPINNING...");
 
-      const duration = 1200 + Math.floor(Math.random() * 600);
+      const duration = 2200 + Math.floor(Math.random() * 600);
       const tick = 60 + Math.floor(Math.random() * 30);
       let current = 0;
 
