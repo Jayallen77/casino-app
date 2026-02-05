@@ -69,7 +69,6 @@
     const { formatSettlementMessage } = window.CasinoSettlement;
 
     const currentEl = rootEl.querySelector("#hilo-current");
-    const nextEl = rootEl.querySelector("#hilo-next");
     const statusEl = rootEl.querySelector("#hilo-status");
     const streakEl = rootEl.querySelector("#hilo-streak");
     const betDisplay = rootEl.querySelector("#hilo-bet-display");
@@ -111,7 +110,9 @@
 
     function updateStreak() {
       if (streakEl) {
-        streakEl.textContent = `STREAK: ${streak} :: MULTIPLIER X${1 + streak}`;
+        const multiplier = 1 + streak;
+        const multiplierClass = streak > 0 ? "hilo-multiplier-win" : "hilo-multiplier-neutral";
+        streakEl.innerHTML = `STREAK: ${streak} :: MULTIPLIER <span class="${multiplierClass}">X${multiplier}</span>`;
       }
     }
 
@@ -121,16 +122,9 @@
       }
     }
 
-    function updateCards(showNext = false) {
+    function updateCard(card) {
       if (currentEl) {
-        currentEl.innerHTML = renderCardHtml(currentCard, false);
-      }
-      if (nextEl) {
-        if (showNext && nextCard) {
-          nextEl.innerHTML = renderCardHtml(nextCard, false);
-        } else {
-          nextEl.innerHTML = renderCardHtml(nextCard, true);
-        }
+        currentEl.innerHTML = renderCardHtml(card, false);
       }
     }
 
@@ -206,7 +200,7 @@
       nextCard = null;
       streak = 0;
       phase = "dealt";
-      updateCards(false);
+      updateCard(currentCard);
       updateStreak();
       setStatus("GUESS HIGH OR LOW");
       updateControls();
@@ -219,7 +213,7 @@
       phase = "resolving";
       updateControls();
       nextCard = drawCard();
-      updateCards(true);
+      updateCard(nextCard);
 
       const currentValue = rankValue(currentCard.rank);
       const nextValue = rankValue(nextCard.rank);
@@ -238,7 +232,7 @@
         currentCard = nextCard;
         nextCard = null;
         phase = "dealt";
-        updateCards(false);
+        updateCard(currentCard);
         updateStreak();
         setStatus(`CORRECT :: STREAK ${streak} :: CASH OUT OR GUESS AGAIN`);
         updateControls();
@@ -316,7 +310,7 @@
       clearBtn.addEventListener("click", clearBet);
     }
 
-    updateCards(false);
+    updateCard(null);
     updateStreak();
     updateBetDisplay();
     updateControls();

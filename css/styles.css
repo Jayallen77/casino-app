@@ -259,12 +259,29 @@ body::before {
   color: #001a08;
 }
 
-.hilo .hands {
-  flex: 0 0 auto;
-}
-
 .hilo .cards {
   justify-content: center;
+}
+
+.hilo-guess {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.hilo-card {
+  display: flex;
+  justify-content: center;
+}
+
+.hilo-multiplier-win {
+  color: var(--yellow);
+  text-shadow: 0 0 6px rgba(255, 208, 0, 0.7);
+}
+
+.hilo-multiplier-neutral {
+  color: var(--green);
 }
 
 .roulette-grid {
